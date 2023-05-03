@@ -1,0 +1,28 @@
+Molecule,SMILES sequence,Class,,,
+,C=C,0,,Aliphatic ,0
+,C=CC,0,,Branching Aliphatic,1
+,C=CCC,0,,Benzylic,2
+,C/C=C/C,0,,Allylic,3
+,C=CCCC,0,,Alcohol,4
+,C/C=C\C,0,,Halogenated,5
+,C/C=C/CC,0,,,
+,C/C=C\CC,0,,,
+,C=CC(CC)C,1,,,
+,C/C=C/C(C)C,1,,,
+,C=C(C)C,1,,,
+,C=CC(CC)CC,1,,,
+,CCC(CC)/C=C/C(C)C,1,,,
+,C/C=C(CC)/CC,1,,,
+,CCC(CC)(C)/C=C/C,1,,,
+,CCC(C=C)(C)CCC,1,,,
+,C=C(C)CC,1,,,
+,C=C(CC)CC,1,,,
+,C/C(CC)=C\C,1,,,
+,C/C(CCC)=C\C,1,,,
+,CC/C=C(C)/C,1,,,
+,C/C(C)=C(C)/CC,1,,,
+,CC/C(CC(C)C)=C(C)/C,1,,,
+,CC/C(CC(C)C)=C(CC)/CC,1,,,
+,C=CCC1=CC=CC=C1,2,,,
+,C=CC1=CC=CC=C1,2,,,
+,C=CC=C,3,,,
