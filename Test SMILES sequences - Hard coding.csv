@@ -1,0 +1,6 @@
+SM Molecule,SMILES sequence,Pdt Molecule,SMILES sequence
+,C=C,,CCBr
+,C=CC,,CC(Br)C
+,C=CC(CC)C,,CCC(CC)(Br)C
+,C=CCC1=CC=CC=C1,,CCC(Br)C1=CC=CC=C1
+,C=CC=C,,C=CC(Br)C
