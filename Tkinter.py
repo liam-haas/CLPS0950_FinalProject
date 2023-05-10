@@ -1,5 +1,5 @@
-import tkinter as tk
+from tkinter import *
 
-main = tk()
+main = Tk()
 
 main.mainloop()
