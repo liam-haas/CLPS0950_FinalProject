@@ -7,7 +7,6 @@ from rdkit.Chem import Descriptors
 from rdkit.Chem import AllChem
 from rdkit import DataStructs
 from rdkit.Chem import PandasTools
-from rdkit.Chem import RDKFingerprint
 import numpy as np
 import pandas as pd
 import math
