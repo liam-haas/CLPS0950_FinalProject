@@ -11,3 +11,5 @@ from rdkit.Chem import Descriptors
 from rdkit.Chem import AllChem
 from rdkit import DataStructs
 import numpy as np
+
+Chem.MolFromSmiles('CCCC')
