@@ -352,7 +352,6 @@ class ChemApp:
             self.pdt2 = tk.Label(self.page3, image = self.pdt2)
             self.pdt2.pack(fill = 'x')
         elif sub_detector(string) == 'right':
-            print('right')
             rxn = AllChem.ReactionFromSmarts('[#6:1]=[C:2]>>[#6:1][C:2][Br]')
             pdt = rxn.RunReactants((a, ))[0][0]
             Draw.MolToFile(pdt, "product.png")
@@ -363,7 +362,6 @@ class ChemApp:
             self.pdt = tk.Label(self.page3, image = self.pdt)
             self.pdt.pack(fill = 'x')
         elif sub_detector(string) == 'left':
-            print('left')
             rxn = AllChem.ReactionFromSmarts('[CH:1]=[C:2]>>[CH]([Br])[C:2]')
             pdt = rxn.RunReactants((a, ))[0][0]
             Draw.MolToFile(pdt, "product.png")
