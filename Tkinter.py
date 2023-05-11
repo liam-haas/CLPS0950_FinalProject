@@ -32,7 +32,7 @@ class ChemApp:
         self.page1.title('Page One')
         self.page1.configure(bg = '#ADD8E6')
 
-        self.description = tk.Label(self.page1, text = 'This interface has been designed to predict the product\n of a simple organic chemistry reaction. So far only the hydrobromination\n of alkenes is supported. To get started please \nenter a SMILE string in the box below.',
+        self.description = tk.Label(self.page1, text = 'This interface has been designed to predict the product\n of a simple organic chemistry reaction. So far only the\n hydrobromination of alkenes is supported. To get started please \nenter a SMILE string in the box below.',
                                     font = ('Serif', 15), bg = '#ADD8E6')
         self.description.pack(pady = 10)
 
@@ -48,10 +48,27 @@ class ChemApp:
                                  bg = '#ADD8E6', font = ('Serif', 15))
             self.ask.pack(pady = 10)
             self.img2 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/input SMILE.png'))
-            self.Disp = tk.Label(self.page1, image = self.img2)
+            self.Disp = tk.Label(self.page1, image = self.img2, height = 250)
             self.Disp.pack()
 
-            self.button2 = tk.Button
+            self.buttonframe = tk.Frame(self.page1)
+            self.buttonframe.columnconfigure(0, weight = 1)
+            self.buttonframe.columnconfigure(1, weight = 1)
             
+            self.yesbutton = tk.Button(self.buttonframe, text = 'Yes', font = ('Serif', 15),
+                                     bg = '#ADD8E6', command = self.descriptor_page)
+            self.yesbutton.grid(row = 0, column = 0, sticky = 'ew')
+            self.nobutton = tk.Button(self.buttonframe, text = 'No', font = ('Serif', 15),
+                                      bg = '#ADD8E6', command = self.message_box)
+            self.nobutton.grid(row = 0, column = 1, sticky = 'ew')
+
+            self.buttonframe.pack(pady = 10)
+            
+    
+    def descriptor_page(self):
+        pass
+
+    def message_box(self):
+        pass
 
 ChemApp()
