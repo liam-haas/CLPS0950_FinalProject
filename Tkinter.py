@@ -51,9 +51,4 @@ class ChemApp:
             self.Disp.pack()
             
 
-
-
-
-
-
 ChemApp()
