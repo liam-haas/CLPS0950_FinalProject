@@ -97,6 +97,7 @@ class ChemApp:
             hash_list.append(hash)
         test_table['fingerprint'] = hash_list
         test_table = test_table.drop(index = 0)
+        test_table = test_table[test_table.Class != 3]
         test_table['weight'] = [Descriptors.MolWt(mol) for mol in test_table['Molecule']]
         test_table['count'] = [Descriptors.NumValenceElectrons(mol) for mol in test_table['Molecule']]
         test_table['charge'] = [Descriptors.MinAbsPartialCharge(mol) for mol in test_table['Molecule']]
@@ -128,11 +129,58 @@ class ChemApp:
         df['chi'] = [Descriptors.Chi0(input)]
         self.group = model.predict(df)
 
+        self.datatitle = tk.Label(self.page2, text = 'Here are some of the properties used in classifying your molecule.',
+                                  bg = '#ADD8E6', font = ('Serif', 15))
+        self.datatitle.pack(pady = 10)
+        
+        self.dataframe = tk.Frame(self.page2)
+        self.dataframe.columnconfigure(0, weight = 1)
+        self.dataframe.columnconfigure(1, weight = 1)
+        self.dataframe.columnconfigure(2, weight = 1)
+        self.dataframe.columnconfigure(3, weight = 1)
+        self.dataframe.configure(bg = '#ADD8E6')
+
+        self.fingerprint = tk.Label(self.dataframe, text = 'Molecular Fingerprint',
+                                    bg = 'white', font = ('Serif', 10))
+        self.fingerprint.grid(row = 0, column = 0, sticky = 's')
+        self.weight = tk.Label(self.dataframe, text = 'Molecular Weight',
+                                    bg = 'white', font = ('Serif', 10))
+        self.weight.grid(row = 0, column = 1, sticky = 's')
+        self.valence = tk.Label(self.dataframe, text = 'Valence Electron Count',
+                                    bg = 'white', font = ('Serif', 10))
+        self.valence.grid(row = 0, column = 2, sticky = 's')
+        self.rotate = tk.Label(self.dataframe, text = 'Rotatable Bond Number',
+                                    bg = 'white', font = ('Serif', 10))
+        self.rotate.grid(row = 0, column = 3, sticky = 's')
+        self.fingerdata = tk.Label(self.dataframe, text = '{}'.format(df.loc[0, 'fingerprint']),
+                                   bg = 'white', font = ('Serif', 10))
+        self.fingerdata.grid(row = 1, column = 0, sticky = 'n')
+        self.weightdata = tk.Label(self.dataframe, text = '{}'.format(df.loc[0, 'weight']),
+                                   bg = 'white', font = ('Serif', 10))
+        self.weightdata.grid(row = 1, column = 1, sticky = 'n')
+        self.valencedata = tk.Label(self.dataframe, text = '{}'.format(df.loc[0, 'count']),
+                                   bg = 'white', font = ('Serif', 10))
+        self.valencedata.grid(row = 1, column = 2, sticky = 'n')
+        self.rotatedata = tk.Label(self.dataframe, text = '{}'.format(df.loc[0, 'bonds']),
+                                   bg = 'white', font = ('Serif', 10))
+        self.rotatedata.grid(row = 1, column = 3, sticky = 'n')
+
+        self.dataframe.pack(pady = 10)
+
         self.disp = tk.Label(self.page2, text = 'This molecule is part of group {}'.format(self.group),
-                             bg = '#ADD8E6', font = ('Serif', 15))
-        self.disp.pack()
+                             bg = '#ADD8E6', font = ('Serif', 20))
+        self.disp.pack(pady = 10)
+
+        self.reactbutton = tk.Button(self.page2, text = 'REACT WITH HBr',
+                                    font = ('Serif', 20), command = self.reaction_page,
+                                    fg = 'red', height = 12, width = 20)
+        self.reactbutton.pack(pady = 5, fill = 'x')
 
     def message_box(self):
         messagebox.showinfo(title = 'You clicked No', message = 'Please rerun the code and start over')
+
+    def reaction_page(self):
+        pass
+
 
 ChemApp()

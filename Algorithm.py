@@ -15,6 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 #Reading in data we generated for training
 test_table = pd.read_csv('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/Test SMILES sequences - Classes.csv')
 test_table = test_table.dropna(axis = 1)
+test_table = test_table[test_table.Class != 3]
 PandasTools.AddMoleculeColumnToFrame(test_table, 'SMILES sequence', 'Molecule')
 
 #Converting the SMILE strings to single number descriptors
@@ -50,7 +51,7 @@ target = test_table['Class']
 model.fit(features, target)
 
 #Running a test on a new molecule
-test = Chem.MolFromSmiles('C/C=C(C)/CC(C(C)CC)CCC')
+test = Chem.MolFromSmiles('CCCC=CCCC')
 df = pd.DataFrame()
 fingerprint = AllChem.GetMorganFingerprintAsBitVect(test, radius = 2, nBits = 512)
 fp_arr = np.zeros((1,))
