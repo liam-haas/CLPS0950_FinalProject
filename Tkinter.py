@@ -1,7 +1,18 @@
 import tkinter as tk
 from PIL import ImageTk, Image
-from rdkit import Chem
 from rdkit.Chem import Draw
+from tkinter import messagebox
+from rdkit import Chem
+from rdkit.Chem import *
+from rdkit.Chem import Descriptors
+from rdkit.Chem import AllChem
+from rdkit import DataStructs
+from rdkit.Chem import PandasTools
+import numpy as np
+import pandas as pd
+import math
+from sklearn.ensemble import RandomForestClassifier
+import pandastable
 
 class ChemApp:
     def __init__(self):
@@ -66,9 +77,62 @@ class ChemApp:
             
     
     def descriptor_page(self):
-        pass
+        self.page2 = tk.Toplevel()
+        self.page2.geometry('500x500')
+        self.page2.title('Page Two')
+        self.page2.configure(bg = '#ADD8E6')
+
+        test_table = pd.read_csv('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/Test SMILES sequences - Classes.csv')
+        test_table = test_table.dropna(axis = 1)
+        PandasTools.AddMoleculeColumnToFrame(test_table, 'SMILES sequence', 'Molecule')
+        hash_list = []
+        for mol in test_table['Molecule']:
+            fingerprint = AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=512)
+            fp_arr = np.zeros((1,))
+            DataStructs.ConvertToNumpyArray(fingerprint, fp_arr)
+            fp_list = fp_arr.tolist()
+            hash = 0
+            for entry in fp_list:
+                hash += entry * math.pow(2, fp_list.index(entry))
+            hash_list.append(hash)
+        test_table['fingerprint'] = hash_list
+        test_table = test_table.drop(index = 0)
+        test_table['weight'] = [Descriptors.MolWt(mol) for mol in test_table['Molecule']]
+        test_table['count'] = [Descriptors.NumValenceElectrons(mol) for mol in test_table['Molecule']]
+        test_table['charge'] = [Descriptors.MinAbsPartialCharge(mol) for mol in test_table['Molecule']]
+        test_table['energy'] = [Descriptors.MinAbsEStateIndex(mol) for mol in test_table['Molecule']]
+        test_table['bonds'] = [Descriptors.NumRotatableBonds(mol) for mol in test_table['Molecule']]
+        test_table['kappa'] = [Descriptors.Kappa1(mol) for mol in test_table['Molecule']]
+        test_table['chi'] = [Descriptors.Chi0(mol) for mol in test_table['Molecule']]
+        model = RandomForestClassifier(n_estimators = 200, max_depth = 7)
+        features = test_table[['fingerprint', 'weight', 'count', 'charge', 'energy', 'bonds', 'kappa', 'chi']]
+        target = test_table['Class']
+        model.fit(features, target)
+
+        input = Chem.MolFromSmiles(self.SMILE.get())
+        df = pd.DataFrame()
+        Infingerprint = AllChem.GetMorganFingerprintAsBitVect(input, radius = 2, nBits = 512)
+        Infp_arr = np.zeros((1,))
+        DataStructs.ConvertToNumpyArray(Infingerprint, Infp_arr)
+        Infp_list = Infp_arr.tolist()
+        Inhash = 0
+        for entry in Infp_list:
+            Inhash += entry * math.pow(2, Infp_list.index(entry))
+        df['fingerprint'] = [Inhash]
+        df['weight'] = [Descriptors.MolWt(input)]
+        df['count'] = [Descriptors.NumValenceElectrons(input)]
+        df['charge'] = [Descriptors.MinAbsPartialCharge(input)]
+        df['energy'] = [Descriptors.MinAbsEStateIndex(input)]
+        df['bonds'] = [Descriptors.NumRotatableBonds(input)]
+        df['kappa'] = [Descriptors.Kappa1(input)]
+        df['chi'] = [Descriptors.Chi0(input)]
+        self.group = model.predict(df)
+
+        self.disp = tk.Label(self.page2, text = 'This molecule is part of group {}'.format(self.group),
+                             bg = '#ADD8E6', font = ('Serif', 15))
+        self.disp.pack()
 
     def message_box(self):
-        pass
+        messagebox.showinfo(title = 'You clicked No', message = 'Please rerun the code and start over')
 
 ChemApp()
