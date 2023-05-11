@@ -82,7 +82,7 @@ class ChemApp:
         self.page2.title('Page Two')
         self.page2.configure(bg = '#ADD8E6')
 
-        test_table = pd.read_csv('Test SMILES sequences - Classes.csv')
+        test_table = pd.read_csv('Test SMILES sequences - Classes (2).csv')
         test_table = test_table.dropna(axis = 1)
         PandasTools.AddMoleculeColumnToFrame(test_table, 'SMILES sequence', 'Molecule')
         hash_list = []
