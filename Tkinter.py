@@ -346,11 +346,11 @@ class ChemApp:
                                      bg = '#ADD8E6', font = ('Serif', 15))
             self.response.pack(pady = 10)
             self.pdt1 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product1.png'))
-            self.pdt1 = tk.Label(self.page3, image = self.pdt1)
-            self.pdt1.pack(fill = 'x')
+            self.pdt1Disp = tk.Label(self.page3, image = self.pdt1, bg = '#ADD8E6', height = 200)
+            self.pdt1Disp.pack(fill = 'x', pady = 5)
             self.pdt2 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product2.png'))
-            self.pdt2 = tk.Label(self.page3, image = self.pdt2)
-            self.pdt2.pack(fill = 'x')
+            self.pdt2Disp = tk.Label(self.page3, image = self.pdt2, bg = '#ADD8E6', height = 250)
+            self.pdt2Disp.pack(fill = 'x', pady = 5)
         elif sub_detector(string) == 'right':
             rxn = AllChem.ReactionFromSmarts('[#6:1]=[C:2]>>[#6:1][C:2][Br]')
             pdt = rxn.RunReactants((a, ))[0][0]
@@ -359,8 +359,8 @@ class ChemApp:
                                      bg = '#ADD8E6', font = ('Serif', 20))
             self.response.pack(pady = 10)
             self.pdt = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product.png'))
-            self.pdt = tk.Label(self.page3, image = self.pdt)
-            self.pdt.pack(fill = 'x')
+            self.pdtDisp = tk.Label(self.page3, image = self.pdt, bg = '#ADD8E6')
+            self.pdtDisp.pack(fill = 'x')
         elif sub_detector(string) == 'left':
             rxn = AllChem.ReactionFromSmarts('[CH:1]=[C:2]>>[CH]([Br])[C:2]')
             pdt = rxn.RunReactants((a, ))[0][0]
@@ -369,8 +369,8 @@ class ChemApp:
                                      bg = '#ADD8E6', font = ('Serif', 20))
             self.response.pack(pady = 10)
             self.pdt = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product.png'))
-            self.pdt = tk.Label(self.page3, image = self.pdt)
-            self.pdt.pack(fill = 'x')
+            self.pdtDisp = tk.Label(self.page3, image = self.pdt, bg = '#ADD8E6')
+            self.pdtDisp.pack(fill = 'x')
         else:
             self.response = tk.Label(self.page3, text = 'Please enter a valid SMILES sequence',
                                      bg = '#ADD8E6', font = ('Serif', 20))
