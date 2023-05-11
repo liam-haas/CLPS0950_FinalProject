@@ -54,9 +54,4 @@ class ChemApp:
             self.button2 = tk.Button
             
 
-
-
-
-
-
 ChemApp()
