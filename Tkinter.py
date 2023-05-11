@@ -27,7 +27,7 @@ class ChemApp:
         self.root.mainloop()
 
     def text_page(self):
-        self.page1 = tk.Tk()
+        self.page1 = tk.Toplevel()
         self.page1.geometry('500x500')
         self.page1.title('Page One')
         self.page1.configure(bg = '#ADD8E6')
@@ -43,12 +43,15 @@ class ChemApp:
     def SMILEMOL(self, event):
         if event.keysym == 'Return':
             self.Mol = Chem.MolFromSmiles(self.SMILE.get())
-            self.Molimg = Draw.MolToFile(self.Mol, 'input SMILE')
+            Draw.MolToFile(self.Mol, 'input SMILE.png')
             self.ask = tk.Label(self.page1, text = 'Just to confirm, is this the molecule you input?',
                                  bg = '#ADD8E6', font = ('Serif', 15))
             self.ask.pack(pady = 10)
-            self.Disp = tk.Label(self.page1, image = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/input SMILE.png')))
+            self.img2 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/input SMILE.png'))
+            self.Disp = tk.Label(self.page1, image = self.img2)
             self.Disp.pack()
+
+            self.button2 = tk.Button
             
 
 

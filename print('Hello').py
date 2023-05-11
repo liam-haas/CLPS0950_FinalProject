@@ -14,4 +14,4 @@ import numpy as np
 
 mol = Chem.MolFromSmiles('CCCC')
 
-Draw.ShowMol(mol)
+Draw.MolToFile(mol, "test file.png")
