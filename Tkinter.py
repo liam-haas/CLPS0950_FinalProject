@@ -1,3 +1,4 @@
+from __future__ import print_function
 import tkinter as tk
 from PIL import ImageTk, Image
 from rdkit.Chem import Draw
@@ -12,7 +13,7 @@ import numpy as np
 import pandas as pd
 import math
 from sklearn.ensemble import RandomForestClassifier
-import pandastable
+from rdkit.Chem.Draw import IPythonConsole
 
 class ChemApp:
     def __init__(self):
@@ -180,7 +181,202 @@ class ChemApp:
         messagebox.showinfo(title = 'You clicked No', message = 'Please rerun the code and start over')
 
     def reaction_page(self):
-        pass
+        self.page3 = tk.Toplevel()
+        self.page3.geometry('500x500')
+        self.page3.title('Page Three')
+        self.page3.configure(bg = '#ADD8E6')
+        
+        IPythonConsole.ipython_useSVG=False
+        string = self.SMILE.get()
+
+        def phenyl_detector(string):
+            str_as_list = []
+            str_as_list[:0] = string
+            length = len(str_as_list)
+            b = str_as_list.index('1')
+            a = b-1  
+            if str_as_list[a] == 'C' and str_as_list[a+1] == '1' and str_as_list[a+2] == '=' and str_as_list[a+3] == 'C' and str_as_list[a+4] == 'C' and str_as_list[a+5] == '=' and str_as_list[a+6] == 'C' and str_as_list[a+7] == 'C' and str_as_list[a+8] == '=' and str_as_list[a+9] == 'C' and str_as_list[a+10] == '1':
+                str_as_list.pop(a+10)
+                str_as_list.pop(a+9)
+                str_as_list.pop(a+8)
+                str_as_list.pop(a+7)
+                str_as_list.pop(a+6)
+                str_as_list.pop(a+5)
+                str_as_list.pop(a+4)
+                str_as_list.pop(a+3)
+                str_as_list.pop(a+2)
+                str_as_list.pop(a+1)
+                str_as_list[a] = 'Ph'
+                new_string = ''.join(str_as_list)
+                return new_string
+            else:
+                return string
+            
+        def sub_detector(string):
+            i = string.index('=')
+            length = len(string)
+            if length >= 11:
+                if '1' in string:
+                    string = phenyl_detector(string)
+                    i = string.index('=')
+                    length = len(string)
+                else:
+                    string
+            else:
+                string
+  
+            if i >= length/2:
+                str_as_list = []
+                str_as_list[:0] = string
+                str_as_list.reverse()
+                for a in range(len(str_as_list)):
+                    if str_as_list[a] == '(':
+                        str_as_list[a] = ')'
+                    elif str_as_list[a] == ')':
+                        str_as_list[a] = '('
+                    elif str_as_list[a] == 'P':
+                        str_as_list[a] = 'h'
+                    elif str_as_list[a] == 'h':
+                        str_as_list[a] = 'P'
+                new_string = ''.join(str_as_list)
+                string = new_string
+
+            j = string.index('=')
+            if j == 1:
+                sub = 'right'
+                return sub
+
+            if string[j-2] == 'C':
+                if string[j+2] == 'C':
+                    sub = 'equal'
+                    return sub
+                elif string[j+2] == '(':
+                    sub = 'right'
+                    return sub
+                elif string[j+2] == 'P':
+                    sub = 'right'
+                    return sub
+            if string[j+2] == 'C':
+                if string[j-2] == ')':
+                    sub = 'left'
+                    return sub
+                elif string[j-2] == 'h':
+                    sub = 'left'
+                    return sub
+            if string[j-2] == 'h':
+                sub = 'left'
+                return sub
+            if string[j+2] == 'P':
+                sub = 'right'
+                return sub
+            if string[j-2] == ')' and string[j-2] == '(':
+                if string[j-3] == 'C' and string[j+3] != 'C':
+                    sub = 'left'
+                    return sub
+                elif string[j-3] != 'C' and string[j-3] == 'C':
+                    sub = 'right'
+                    return sub
+                elif string[j-3] == 'C' and string[j+3] == 'C':
+                    if string[j-4] == 'C' and string[j+4] != 'C':
+                        sub = 'left'
+                        return sub
+                    elif string[j-4] != 'C' and string[j+4] == 'C':
+                        sub = 'right'
+                        return sub
+                    elif string[j-4] == 'C' and string[j+4] == 'C':
+                        sub = 'equal'
+                        return sub
+
+        if string == 'C=C':
+           self.response = tk.Label(self.page3, text = 'No rxn: 1º carbocations are too unstable.',
+                                    bg = '#ADD8E6', font = ('Serial', 20))
+           self.response.pack(pady = 20)
+    
+        if '=' not in string:
+            self.response = tk.Label(self.page3, text = 'No alkene found!',
+                                     bg = '#ADD8E6', font = ('Serial', 20))
+            self.response.pack(pady = 20)
+    
+        if '/' or '\\' in string:
+            counter = 0
+            for a in range(len(string)):  
+                if string[a] == '/':
+                    counter += 1
+                elif string[a] == '\\':
+                    counter += 1
+          
+            for a in range(len(string)-counter):
+                str_as_list = []
+                str_as_list[:0] = string
+                if str_as_list[a] == '/':
+                    str_as_list.pop(a)
+                elif str_as_list[a] == '\\':
+                    str_as_list.pop(a)
+                new_string = ''.join(str_as_list)
+                string = new_string
+    
+        i = string.index('=')
+        length = len(string)
+    
+        if i >= length/2:
+            str_as_list = []
+            str_as_list[:0] = string
+            str_as_list.reverse()
+            for a in range(len(str_as_list)):
+                if str_as_list[a] == '(':
+                    str_as_list[a] = ')'
+                elif str_as_list[a] == ')':
+                    str_as_list[a] = '('
+                elif str_as_list[a] == 'P':
+                    str_as_list[a] = 'h'
+                elif str_as_list[a] == 'h':
+                    str_as_list[a] = 'P'
+            new_string = ''.join(str_as_list)
+            string = new_string
+    
+        a = Chem.MolFromSmiles(string)
+        if sub_detector(string) == 'equal':
+            rxn1 = AllChem.ReactionFromSmarts('[#6:1]=[#6:2]>>[#6:1]([Br])[#6:2]')
+            rxn2 = AllChem.ReactionFromSmarts('[#6:1]=[#6:2]>>[#6:1][#6:2]([Br])')
+            pdt1 = rxn1.RunReactants((a, ))[0][0]
+            pdt2 = rxn2.RunReactants((a, ))[0][0]        
+            Draw.MolToFile(pdt1, "product1.png")
+            Draw.MolToFile(pdt2, "product2.png")
+            self.response = tk.Label(self.page3, text = 'Reacting with HBr will generate two products shown below',
+                                     bg = '#ADD8E6', font = ('Serif', 15))
+            self.response.pack(pady = 10)
+            self.pdt1 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product1.png'))
+            self.pdt1 = tk.Label(self.page3, image = self.pdt1)
+            self.pdt1.pack(fill = 'x')
+            self.pdt2 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product2.png'))
+            self.pdt2 = tk.Label(self.page3, image = self.pdt2)
+            self.pdt2.pack(fill = 'x')
+        elif sub_detector(string) == 'right':
+            print('right')
+            rxn = AllChem.ReactionFromSmarts('[#6:1]=[C:2]>>[#6:1][C:2][Br]')
+            pdt = rxn.RunReactants((a, ))[0][0]
+            Draw.MolToFile(pdt, "product3.png")
+            self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
+                                     bg = '#ADD8E6', font = ('Serif', 20))
+            self.response.pack(pady = 10)
+            self.pdt3 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product3.png'))
+            self.pdt3 = tk.Label(self.page3, image = self.pdt3)
+            self.pdt3.pack(fill = 'x')
+        elif sub_detector(string) == 'left':
+            print('left')
+            rxn = AllChem.ReactionFromSmarts('[CH:1]=[C:2]>>[CH]([Br])[C:2]')
+            pdt = rxn.RunReactants((a, ))[0][0]
+            Draw.MolToFile(pdt, "product3.png")
+            self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
+                                     bg = '#ADD8E6', font = ('Serif', 20))
+            self.response.pack(pady = 10)
+            self.pdt4 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product4.png'))
+            self.pdt4 = tk.Label(self.page3, image = self.pdt4)
+            self.pdt4.pack(fill = 'x')
+        else:
+            self.response = tk.Label(self.page3, text = 'Please enter a valid SMILES sequence',
+                                     bg = '#ADD8E6', font = ('Serif', 20))
+            self.response.pack(pady = 10)
 
 
 ChemApp()
