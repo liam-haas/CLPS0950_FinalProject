@@ -26,8 +26,7 @@ class ChemApp:
                               font = ('Serif', 25), bg = '#ADD8E6')
         self.label.pack(pady = 10)
 
-        self.img = ImageTk.PhotoImage(
-            Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/Benzene.jpeg'))
+        self.img = ImageTk.PhotoImage(Image.open('Benzene.jpeg'))
         self.benzene = tk.Label(self.root, image = self.img)
         self.benzene.pack(pady = 10)
 
@@ -59,7 +58,7 @@ class ChemApp:
             self.ask = tk.Label(self.page1, text = 'Just to confirm, is this the molecule you input?',
                                  bg = '#ADD8E6', font = ('Serif', 15))
             self.ask.pack(pady = 10)
-            self.img2 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/input SMILE.png'))
+            self.img2 = ImageTk.PhotoImage(Image.open('input SMILE.png'))
             self.Disp = tk.Label(self.page1, image = self.img2, height = 250)
             self.Disp.pack()
 
@@ -83,7 +82,7 @@ class ChemApp:
         self.page2.title('Page Two')
         self.page2.configure(bg = '#ADD8E6')
 
-        test_table = pd.read_csv('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/Test SMILES sequences - Classes.csv')
+        test_table = pd.read_csv('Test SMILES sequences - Classes.csv')
         test_table = test_table.dropna(axis = 1)
         PandasTools.AddMoleculeColumnToFrame(test_table, 'SMILES sequence', 'Molecule')
         hash_list = []
@@ -168,9 +167,22 @@ class ChemApp:
 
         self.dataframe.pack(pady = 10)
 
-        self.disp = tk.Label(self.page2, text = 'This molecule is part of group {}'.format(self.group),
+        if self.group == 0:
+            self.disp = tk.Label(self.page2, text = 'This molecule is just a standard alkene',
                              bg = '#ADD8E6', font = ('Serif', 20))
-        self.disp.pack(pady = 10)
+            self.disp.pack(pady = 10)
+        elif self.group == 1:
+            self.disp = tk.Label(self.page2, text = 'This molecule has branching carbon chains',
+                             bg = '#ADD8E6', font = ('Serif', 20))
+            self.disp.pack(pady = 10)
+        elif self.group == 2:
+            self.disp = tk.Label(self.page2, text = 'This molecule has a benzene ring',
+                             bg = '#ADD8E6', font = ('Serif', 20))
+            self.disp.pack(pady = 10)
+        else:
+            self.disp = tk.Label(self.page2, text = 'This molecule is part of group {}'.format(self.group),
+                             bg = '#ADD8E6', font = ('Serif', 20))
+            self.disp.pack(pady = 10)
 
         self.reactbutton = tk.Button(self.page2, text = 'REACT WITH HBr',
                                     font = ('Serif', 20), command = self.reaction_page,
@@ -345,10 +357,10 @@ class ChemApp:
             self.response = tk.Label(self.page3, text = 'Reacting with HBr will generate two products shown below',
                                      bg = '#ADD8E6', font = ('Serif', 15))
             self.response.pack(pady = 10)
-            self.pdt1 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product1.png'))
+            self.pdt1 = ImageTk.PhotoImage(Image.open('product1.png'))
             self.pdt1Disp = tk.Label(self.page3, image = self.pdt1, bg = '#ADD8E6', height = 200)
             self.pdt1Disp.pack(fill = 'x', pady = 5)
-            self.pdt2 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product2.png'))
+            self.pdt2 = ImageTk.PhotoImage(Image.open('product2.png'))
             self.pdt2Disp = tk.Label(self.page3, image = self.pdt2, bg = '#ADD8E6', height = 250)
             self.pdt2Disp.pack(fill = 'x', pady = 5)
         elif sub_detector(string) == 'right':
@@ -358,7 +370,7 @@ class ChemApp:
             self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
                                      bg = '#ADD8E6', font = ('Serif', 20))
             self.response.pack(pady = 10)
-            self.pdt = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product.png'))
+            self.pdt = ImageTk.PhotoImage(Image.open('product.png'))
             self.pdtDisp = tk.Label(self.page3, image = self.pdt, bg = '#ADD8E6')
             self.pdtDisp.pack(fill = 'x')
         elif sub_detector(string) == 'left':
@@ -368,7 +380,7 @@ class ChemApp:
             self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
                                      bg = '#ADD8E6', font = ('Serif', 20))
             self.response.pack(pady = 10)
-            self.pdt = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product.png'))
+            self.pdt = ImageTk.PhotoImage(Image.open('product.png'))
             self.pdtDisp = tk.Label(self.page3, image = self.pdt, bg = '#ADD8E6')
             self.pdtDisp.pack(fill = 'x')
         else:
