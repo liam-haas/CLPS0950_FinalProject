@@ -355,24 +355,24 @@ class ChemApp:
             print('right')
             rxn = AllChem.ReactionFromSmarts('[#6:1]=[C:2]>>[#6:1][C:2][Br]')
             pdt = rxn.RunReactants((a, ))[0][0]
-            Draw.MolToFile(pdt, "product3.png")
+            Draw.MolToFile(pdt, "product.png")
             self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
                                      bg = '#ADD8E6', font = ('Serif', 20))
             self.response.pack(pady = 10)
-            self.pdt3 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product3.png'))
-            self.pdt3 = tk.Label(self.page3, image = self.pdt3)
-            self.pdt3.pack(fill = 'x')
+            self.pdt = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product.png'))
+            self.pdt = tk.Label(self.page3, image = self.pdt)
+            self.pdt.pack(fill = 'x')
         elif sub_detector(string) == 'left':
             print('left')
             rxn = AllChem.ReactionFromSmarts('[CH:1]=[C:2]>>[CH]([Br])[C:2]')
             pdt = rxn.RunReactants((a, ))[0][0]
-            Draw.MolToFile(pdt, "product3.png")
+            Draw.MolToFile(pdt, "product.png")
             self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
                                      bg = '#ADD8E6', font = ('Serif', 20))
             self.response.pack(pady = 10)
-            self.pdt4 = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product4.png'))
-            self.pdt4 = tk.Label(self.page3, image = self.pdt4)
-            self.pdt4.pack(fill = 'x')
+            self.pdt = ImageTk.PhotoImage(Image.open('/Users/liam/GitHub/CLPS 0950/Untitled/Module6 Test Repository/CLPS0950_FinalProject/product.png'))
+            self.pdt = tk.Label(self.page3, image = self.pdt)
+            self.pdt.pack(fill = 'x')
         else:
             self.response = tk.Label(self.page3, text = 'Please enter a valid SMILES sequence',
                                      bg = '#ADD8E6', font = ('Serif', 20))
