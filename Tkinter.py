@@ -156,7 +156,7 @@ class ChemApp:
         self.fingerdata = tk.Label(self.dataframe, text = '{}'.format(df.loc[0, 'fingerprint']),
                                    bg = 'white', font = ('Serif', 10))
         self.fingerdata.grid(row = 1, column = 0, sticky = 'n')
-        self.weightdata = tk.Label(self.dataframe, text = '{}'.format(df.loc[0, 'weight']),
+        self.weightdata = tk.Label(self.dataframe, text = '{:.2f}'.format(df.loc[0, 'weight']),
                                    bg = 'white', font = ('Serif', 10))
         self.weightdata.grid(row = 1, column = 1, sticky = 'n')
         self.valencedata = tk.Label(self.dataframe, text = '{}'.format(df.loc[0, 'count']),
