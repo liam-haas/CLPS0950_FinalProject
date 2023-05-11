@@ -100,4 +100,24 @@ def sub_detector(string):
         sub = 'equal'
         return sub
 
-print(sub_detector('CCCCCC=CCCCCCC'))
+string = 'C/C=CC(C)C'
+
+counter = 0
+for a in range(len(string)):  
+  if string[a] == '/':
+    counter += 1
+  elif string[a] == '\\':
+    counter += 1
+print(counter)
+
+for a in range(len(string)-counter):
+  str_as_list = []
+  str_as_list[:0] = string
+  print(str_as_list)
+  if str_as_list[a] == '/':
+    str_as_list.pop(a)
+  elif str_as_list[a] == '\\':
+    str_as_list.pop(a)
+  new_string = ''.join(str_as_list)
+  string = new_string
+  print (string)
