@@ -12,4 +12,6 @@ from rdkit.Chem import AllChem
 from rdkit import DataStructs
 import numpy as np
 
-Chem.MolFromSmiles('CCCC')
+mol = Chem.MolFromSmiles('CCCC')
+
+Draw.ShowMol(mol)
