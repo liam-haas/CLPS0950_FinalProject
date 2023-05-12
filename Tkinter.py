@@ -298,7 +298,7 @@ class ChemApp:
                     elif string[j-4] == 'C' and string[j+4] == 'C':
                         sub = 'equal'
                         return sub
-
+        
         if string == 'C=C':
            self.response = tk.Label(self.page3, text = 'No rxn: 1º carbocations are too unstable.',
                                     bg = '#ADD8E6', font = ('Serial', 20))
@@ -329,8 +329,18 @@ class ChemApp:
     
         i = string.index('=')
         length = len(string)
+        inversion = False
+        
+        if length >= 11:
+            if '1' in string:
+                string = phenyl_detector(string)
+                i = string.index('=')
+                length = len(string)
+            else:
+                string
     
         if i >= length/2:
+            inversion = True
             str_as_list = []
             str_as_list[:0] = string
             str_as_list.reverse()
@@ -346,7 +356,27 @@ class ChemApp:
             new_string = ''.join(str_as_list)
             string = new_string
     
+        str_as_list = []
+        str_as_list[:0] = string
+        for a in range(len(str_as_list)):
+            if str_as_list[a] == 'P':
+                str_as_list[a] = 'C'
+            elif str_as_list[a] == 'h':
+                str_as_list[a] = '1'
+                str_as_list.insert(a+1,'=')
+                str_as_list.insert(a+2,'C')
+                str_as_list.insert(a+3,'C')
+                str_as_list.insert(a+4,'=')
+                str_as_list.insert(a+5,'C')
+                str_as_list.insert(a+6,'C')
+                str_as_list.insert(a+7,'=')
+                str_as_list.insert(a+8,'C')
+                str_as_list.insert(a+9,'1')
+        new_string = ''.join(str_as_list)
+        string = new_string
+    
         a = Chem.MolFromSmiles(string)
+
         if sub_detector(string) == 'equal':
             rxn1 = AllChem.ReactionFromSmarts('[#6:1]=[#6:2]>>[#6:1]([Br])[#6:2]')
             rxn2 = AllChem.ReactionFromSmarts('[#6:1]=[#6:2]>>[#6:1][#6:2]([Br])')
@@ -363,7 +393,7 @@ class ChemApp:
             self.pdt2 = ImageTk.PhotoImage(Image.open('product2.png'))
             self.pdt2Disp = tk.Label(self.page3, image = self.pdt2, bg = '#ADD8E6', height = 250)
             self.pdt2Disp.pack(fill = 'x', pady = 5)
-        elif sub_detector(string) == 'right':
+        elif sub_detector(string) == 'right' and inversion == False:
             rxn = AllChem.ReactionFromSmarts('[#6:1]=[C:2]>>[#6:1][C:2][Br]')
             pdt = rxn.RunReactants((a, ))[0][0]
             Draw.MolToFile(pdt, "product.png")
@@ -373,8 +403,28 @@ class ChemApp:
             self.pdt = ImageTk.PhotoImage(Image.open('product.png'))
             self.pdtDisp = tk.Label(self.page3, image = self.pdt, bg = '#ADD8E6')
             self.pdtDisp.pack(fill = 'x')
-        elif sub_detector(string) == 'left':
+        elif sub_detector(string) == 'left' and inversion == False:
             rxn = AllChem.ReactionFromSmarts('[CH:1]=[C:2]>>[CH]([Br])[C:2]')
+            pdt = rxn.RunReactants((a, ))[0][0]
+            Draw.MolToFile(pdt, "product.png")
+            self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
+                                     bg = '#ADD8E6', font = ('Serif', 20))
+            self.response.pack(pady = 10)
+            self.pdt = ImageTk.PhotoImage(Image.open('product.png'))
+            self.pdtDisp = tk.Label(self.page3, image = self.pdt, bg = '#ADD8E6')
+            self.pdtDisp.pack(fill = 'x')
+        elif sub_detector(string) == 'right' and inversion == True:
+            rxn = AllChem.ReactionFromSmarts('[CH:1]=[C:2]>>[CH:1]([Br])[C:2]')
+            pdt = rxn.RunReactants((a, ))[0][0]
+            Draw.MolToFile(pdt, "product.png")
+            self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
+                                     bg = '#ADD8E6', font = ('Serif', 20))
+            self.response.pack(pady = 10)
+            self.pdt = ImageTk.PhotoImage(Image.open('product.png'))
+            self.pdtDisp = tk.Label(self.page3, image = self.pdt, bg = '#ADD8E6')
+            self.pdtDisp.pack(fill = 'x')
+        elif sub_detector(string) == 'left' and inversion == True:
+            rxn = AllChem.ReactionFromSmarts('[#6:1]=[C:2]>>[#6:1][C:2]([Br])')
             pdt = rxn.RunReactants((a, ))[0][0]
             Draw.MolToFile(pdt, "product.png")
             self.response = tk.Label(self.page3, text = 'Here is the product of the reaction',
@@ -387,6 +437,5 @@ class ChemApp:
             self.response = tk.Label(self.page3, text = 'Please enter a valid SMILES sequence',
                                      bg = '#ADD8E6', font = ('Serif', 20))
             self.response.pack(pady = 10)
-
 
 ChemApp()
